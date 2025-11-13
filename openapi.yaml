@@ -9,7 +9,7 @@ servers:
     description: SmartAdvocate CaseSync Production API
 
 security:
-  - BearerAuth: []  # ✅ this is now at the root level
+  - BearerAuth: []
 
 paths:
   /Users/authenticate:
@@ -45,15 +45,15 @@ paths:
                   userID:
                     type: integer
 
-  /case/CaseInfo:
+  /case/CaseInfo/{Casenumber}:
     get:
       operationId: getCaseInfoByCaseNumber
       summary: Get case details by case number
       security:
-        - BearerAuth: []  # ✅ ensures ChatGPT sends token
+        - BearerAuth: []
       parameters:
         - name: Casenumber
-          in: query
+          in: path
           required: true
           schema:
             type: string
