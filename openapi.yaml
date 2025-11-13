@@ -3,11 +3,10 @@ info:
   title: CaseSync API (ChatGPT Custom Action)
   version: 1.0.0
   description: |
-    Access case data from the CaseSync platform.
-    Authenticate and retrieve case details by case number.
+    Authenticate and retrieve case information from the CaseSync system via SmartAdvocate.
 servers:
-  - url: https://{{BaseURL}}
-    description: Replace `{{BaseURL}}` with your CaseSync API hostname.
+  - url: https://api.smartadvocate.com/CaseSyncAPI/
+    description: SmartAdvocate CaseSync Production API
 paths:
   /Users/authenticate:
     post:
@@ -22,10 +21,8 @@ paths:
               properties:
                 Username:
                   type: string
-                  example: testuser
                 Password:
                   type: string
-                  example: testpass
               required: [Username, Password]
       responses:
         '200':
@@ -73,11 +70,10 @@ paths:
                 type: array
                 items:
                   type: object
-                  description: Case data
-
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas: {}
