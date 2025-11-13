@@ -8,7 +8,7 @@ info:
     - Retrieve case information by case number using a Bearer token
 
 servers:
-  - url: https://app.smartadvocate.com/CaseSyncAPI
+  - url: https://api.smartadvocate.com/CaseSyncAPI
     description: SmartAdvocate CaseSync API
 
 paths:
