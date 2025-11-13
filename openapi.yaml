@@ -45,7 +45,7 @@ paths:
                   userID:
                     type: integer
 
-  /case/CaseInfo/{Casenumber}:
+  /case/CaseInfo:
     get:
       operationId: getCaseInfoByCaseNumber
       summary: Get case details by case number
@@ -53,7 +53,7 @@ paths:
         - BearerAuth: []
       parameters:
         - name: Casenumber
-          in: path
+          in: query
           required: true
           schema:
             type: string
