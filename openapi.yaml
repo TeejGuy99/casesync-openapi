@@ -5,7 +5,7 @@ info:
   description: |
     Authenticate and retrieve case information from the CaseSync system via SmartAdvocate.
 servers:
-  - url: https://api.smartadvocate.com/CaseSyncAPI/
+  - url: https://api.smartadvocate.com/CaseSyncAPI
     description: SmartAdvocate CaseSync Production API
 paths:
   /Users/authenticate:
@@ -43,6 +43,8 @@ paths:
     get:
       operationId: getCaseInfoByCaseNumber
       summary: Get case details by case number
+      security:
+        - bearerAuth: []
       parameters:
         - name: Casenumber
           in: query
@@ -59,8 +61,6 @@ paths:
           required: false
           schema:
             type: boolean
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Case information returned
@@ -70,6 +70,7 @@ paths:
                 type: array
                 items:
                   type: object
+
 components:
   securitySchemes:
     bearerAuth:
