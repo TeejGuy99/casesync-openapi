@@ -43,8 +43,7 @@ paths:
     get:
       operationId: getCaseInfoByCaseNumber
       summary: Get case details by case number
-      headers:
-        - Authorization: []
+      security: [ { BearerAuth: [] } ]
       parameters:
         - name: Casenumber
           in: query
@@ -73,8 +72,10 @@ paths:
 
 components:
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-  schemas: {}
+security:
+  - BearerAuth: []
+schemas: {}
