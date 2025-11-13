@@ -43,8 +43,8 @@ paths:
     get:
       operationId: getCaseInfoByCaseNumber
       summary: Get case details by case number
-      security:
-        - bearerAuth: []
+      headers:
+        - Authorization: []
       parameters:
         - name: Casenumber
           in: query
