@@ -1,21 +1,24 @@
 openapi: 3.1.0
 info:
-  title: CaseSync API (ChatGPT Custom Action)
+  title: CaseSync API (Auth + Case Info)
   version: 1.0.0
   description: |
-    Authenticate and retrieve case information from the CaseSync system via SmartAdvocate.
-servers:
-  - url: https://api.smartadvocate.com/CaseSyncAPI
-    description: SmartAdvocate CaseSync Production API
+    This API provides two endpoints:
+    - Authenticate and retrieve a JWT auth token
+    - Retrieve case information by case number using a Bearer token
 
-security:
-  - BearerAuth: []
+servers:
+  - url: https://app.smartadvocate.com/CaseSyncAPI
+    description: SmartAdvocate CaseSync API
 
 paths:
   /Users/authenticate:
     post:
-      operationId: authenticateUser
-      summary: Authenticate and retrieve an access token
+      operationId: getAuthToken
+      summary: Authenticate and retrieve a JWT token
+      description: |
+        Mirrors the behavior of the getAuthToken() function.
+        Performs a POST request to obtain a JWT authentication token.
       requestBody:
         required: true
         content:
@@ -44,38 +47,51 @@ paths:
                     type: string
                   userID:
                     type: integer
+        "401":
+          description: Unauthorized — invalid username or password
+        "500":
+          description: Server error while retrieving token
 
   /case/CaseInfo:
     get:
-      operationId: getCaseInfoByCaseNumber
-      summary: Get case details by case number
+      operationId: getCaseInfo
+      summary: Retrieve case information by case number
+      description: |
+        Mirrors the behavior of the getCaseInfo(authToken, caseNum) function.
+        Performs a GET request to fetch case information using a Bearer token.
       security:
         - BearerAuth: []
       parameters:
         - name: Casenumber
           in: query
           required: true
+          description: The case number to look up.
           schema:
             type: string
         - name: AddContactInfo
           in: query
           required: false
+          description: |
+            Whether to include contact information in the response.
+            The client always sets this to true.
           schema:
             type: boolean
-        - name: AddReferrals
-          in: query
-          required: false
-          schema:
-            type: boolean
+            default: true
       responses:
         "200":
-          description: Case information returned
+          description: Case information retrieved successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   type: object
+        "400":
+          description: Missing or invalid query parameters
+        "401":
+          description: Unauthorized — missing or invalid Bearer token
+        "500":
+          description: Server error retrieving case information
 
 components:
   securitySchemes:
