@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: CaseSync API (ChatGPT Custom Action)
+  version: 1.0.0
+  description: |
+    Access case data from the CaseSync platform.
+    Authenticate and retrieve case details by case number.
+servers:
+  - url: https://{{BaseURL}}
+    description: Replace `{{BaseURL}}` with your CaseSync API hostname.
+paths:
+  /Users/authenticate:
+    post:
+      operationId: authenticateUser
+      summary: Authenticate and retrieve an access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Username:
+                  type: string
+                  example: testuser
+                Password:
+                  type: string
+                  example: testpass
+              required: [Username, Password]
+      responses:
+        '200':
+          description: Token returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  username:
+                    type: string
+                  userID:
+                    type: integer
+
+  /case/CaseInfo:
+    get:
+      operationId: getCaseInfoByCaseNumber
+      summary: Get case details by case number
+      parameters:
+        - name: Casenumber
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: AddContactInfo
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: AddReferrals
+          in: query
+          required: false
+          schema:
+            type: boolean
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Case information returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: Case data
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
