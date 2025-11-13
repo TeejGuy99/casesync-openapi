@@ -63,17 +63,11 @@ paths:
         - BearerAuth: []
       parameters:
         - name: Casenumber
-          in: query
+          in: querystring
           required: true
           description: The case number to look up.
           schema:
             type: string
-        - name: AddContactInfo
-          in: query
-          required: false
-          description: |
-            Whether to include contact information in the response.
-            The client always sets this to true.
           schema:
             type: boolean
             default: true
